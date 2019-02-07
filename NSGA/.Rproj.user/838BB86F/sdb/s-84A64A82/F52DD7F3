@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#initialization of the ANN \n#3 inputs, 10 hidden layer nodes, 2 output\n#hidden activation function is tangent function\n#outupt activation function is sigmoidal function\n\n#---------------------------------------------------------------\n#all the function required:\n\n#hyperbolic tangential function\nTangent_Activation <- function(a){\n  (exp(a)-exp(-a))/(exp(a)+exp(-a));\n}##is wrong it will be e^x-e^-x/e^x+e^-x\n\n#sigmoidal function\n#parameters a= the input b=steepness parameter, default=1\nSigmoidal_Activation <- function(a,b=1){\n  y <-((1+exp(-b*a))^(-1));\n}\n\n#First order derivative of tangential function:\n#FOD_Tangent_Activation <- function(a) y <- 2 * Tangent_Activation(a) * (1- Tangent_Activation(a))\n#First order Derivative of Sigmoidal fucntion:\n#FOD_Sigmoidal_Activation<- fiunction(a,b=1) y<-(2* Sigmoidal_Activation(a,b) * (1-Sigmoidal_Activation(a,b)))\n#-------------------------------------------------------------------\n\n#defining upper limits\nUx<-list()\n#defining lower limits\nLx<-list()\n\n#------------------------------------------------------------------------\n#random generation of input-hidden layer weight matrix population\npopulation_input.hidden<- list()\nfor (i in 1:20) {\n  population_input.hidden[[i]]<-rnorm(30)\n}\n\n#random generation of hidden-output layer weight matrix population\npopulation_hidden.output<- list()\nfor (i in 1:20) {\n  population_hidden.output[[i]]<-rnorm(20)\n}\n\n#-------------------------------------------------------------------------\n#### code under consturction############################################# \n#put a loop here to itereate the chromosomes \nfor (i in 1:20) {\n  \n#############################################################################\n\n#generating the input-hidden layer weight matrix\nWMat_input.hidden<-matrix(population_input.hidden[[i]],nrow = 3,ncol = 10, byrow = TRUE)\n#print(WMat_input.hidden[[1,10]])   #testing if the matrix values are accessible or  not\n\n#generating the hidden-output weight matrix\nWMat_hidden.output<-matrix(population_hidden.output[[i]],nrow = 10,ncol = 2, byrow = TRUE)\nprint(WMat_hidden.output)\n\n################## to itereate through the rows in the training data set\npicp<-0  \nfor (j in 1:200) {\n#########################################################################\n#print(trainingData[j,])\n\n#input for the hidden layer nodes calculated\nhidden.input<-as.matrix(normalized_data[j,]) %*% WMat_input.hidden\n\n#activation fnction is applied to the input\nhidden.output<-Tangent_Activation(hidden.input)\n\n#multiplying the hidden layer output with the hidden-output weight matrix \n#to generate the input to the output layer nodes\noutput.sinput<-hidden.output %*% WMat_hidden.output\n\n#applying activation function of the output layer:\nfinal.output<-Sigmoidal_Activation(output.sinput)\nprint(final.output)\n\n#if(data[]<final.output[1] & normalized_data[]>final.output[2])\n\n\nUx[j]<-(final.output[1])\nLx[j]<-(final.output[2])\n\n\nif(data.3.a<Ux[j] && data.3.a[j]>Lx[j] ){ picp<-picp+1}\n\nplot(final.output, xlim = c(0,2),ylim = c(0,2))\npar(new=T)\n}\n\n}\n#################################################################################333\n\n  \n\n",
+    "created" : 1490177493822.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "115633622",
+    "id" : "F52DD7F3",
+    "lastKnownWriteTime" : 1489138470,
+    "last_content_update" : 1489138470,
+    "path" : "D:/BTECHPROJECT/MLPNN_NSGA2/MLPNN_NSGAII_NO_ITERATION.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

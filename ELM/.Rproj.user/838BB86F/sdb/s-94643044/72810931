@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#rm(list=ls)\nlibrary(elmNN)\n#library(ELMR)\nlibrary(quantmod) #for Lag\n#library(confReg)\n#library(e1071)\n#set.seed(1234)\ndata.1.a<- read.csv(\"D:/BTECHPROJECT/projectdataset/testing.csv\",header=T);\n#####################PreProcessing the data##############################\n#(processed_data<-preProcess(data))\n#class(data)\n#preprocessing the data:\n#data.1.b<-data.frame(data.1.a$windspd)\n#data.1.c<-preProcess(data.1.b)\n\n#data.1.d<-data.frame(data.1.c, x1=Lag(data.1.c,1), x2=Lag(data.1.c,2))\n#(data.1.d)\n####################################################\n#data.2.a<-list()\n#---------------normalizing the data-----------------\nmax=max(data.1.a$windspd)\nmin=min(data.1.a$windspd)\n#--------------------normalization-------------------------\ndata.2.a<-(data.1.a$windspd-min)/(max-min)\nnormalized_data<-data.frame(now=data.2.a, x1=Lag(data.2.a,1), x2=Lag(data.2.a,2))\n#--------------------applying the ELM----------------------\n#--------------------creating the elm model----------------\nElm_MOdel<-elmtrain(normalized_data$now~normalized_data$Lag.1+normalized_data$Lag.2,data=normalized_data, nhid = 10, actfun = \"sig\")\n(Elm_MOdel)\n#---------------------Predicting the values----------------\nElm_Pred<-predict(Elm_MOdel,newdata =normalized_data)\n\n\n\n#----------\nplot( data.2.a, type=\"l\", col=\"yellow\",ylim = c(0,1),xlim=c(0,800),xlab = \"hours\",ylab=\"normalized Windspeed\" )\npar(new=TRUE)\nplot(Elm_Pred, type=\"l\", col=\"blue\",ylim = c(0,1),xlim = c(0,800),xlab = \"hours\",ylab=\"normalized Windspeed\"  )\nlegend(600,0.9,legend=c(\"target\",\"actual\"),col=c(\"blue\",\"red\"),lwd=2,lty = 1:1,cex=0.8)\n#------------\n\n#--------------Statistics Calculation-----------\nPrediction_Mean<-mean(Elm_Pred)\nPrediction_STD.Deviation<-sd(Elm_Pred)\nPrediction_Size<-length(Elm_Pred)\n\n\nPrediction_Error<-qt(0.95,df=Prediction_Size-1)*Prediction_STD.Deviation/sqrt(Prediction_Size)\nleft<-Prediction_Mean- Prediction_Error\nright<-Prediction_Mean+ Prediction_Error\n#-----------------------------------------\n\nprediction_intervals<-data.frame(upper=Elm_Pred+Prediction_Error,val=Elm_Pred,lower=Elm_Pred-Prediction_Error)\n(prediction_intervals)\n\n\n\n#----------------plotting the PI-----------------------\nplot(prediction_intervals$upper, type=\"l\", col=\"red\",ylim=c(0,1),xlab = \"hours\",ylab=\"normalised wind speed\",main=\"ELM-INTERVAL\")\npar(new=TRUE)\nplot(prediction_intervals$lower,type=\"l\", col=\"blue\",ylim=c(0,1),xlab = \"hours\",ylab=\"normalised wind speed\",main=\"ELM\")\n\n",
+    "created" : 1486301102146.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2325251296",
+    "id" : "72810931",
+    "lastKnownWriteTime" : 1486730638,
+    "last_content_update" : 1486730638434,
+    "path" : "D:/BTECHPROJECT/ELM/ELM_INPUT_DATA_PROCESSING.R",
+    "project_path" : "ELM_INPUT_DATA_PROCESSING.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

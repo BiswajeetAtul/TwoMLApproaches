@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1486716374406.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "8C1086EE",
+    "lastKnownWriteTime" : 3419473789575321445,
+    "last_content_update" : 1486716374406,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "BFF2FA53",
+        "caption" : "Elm_Pred",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=Elm_Pred&cache_key=BFF2FA53",
+        "displayedObservations" : 742,
+        "environment" : "",
+        "object" : "Elm_Pred",
+        "preview" : 0,
+        "totalObservations" : 742,
+        "variables" : 1
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "OBJECTIVE<-function(y){\n  WMat_input.hidden<-matrix(population_input.hidden[[i]],nrow = 3,ncol = 10, byrow = TRUE)\n  WMat_input.hidden<-matrix(population_input.hidden[[i]],nrow = 3,ncol = 10, byrow = TRUE)\n}",
+    "created" : 1490177569956.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1521909671",
+    "id" : "62735B5B",
+    "lastKnownWriteTime" : 27303364806049904,
+    "last_content_update" : 1490179212833,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

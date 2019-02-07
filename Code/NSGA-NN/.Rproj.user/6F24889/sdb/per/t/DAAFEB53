@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#rm(list=ls())\nstrt=Sys.time()\nrequire(caret)\nrequire(quantmod) #for Lag\n\n#Read the dataset into the workspace\ntrain_data=read.csv(\"/media/lonewolf/Documents/BTECHPROJECT/projectdataset/testing.csv\",header=T)\n\n#Normalisation\ntraindata=(train_data$windspd-min(train_data$windspd))/(max(train_data$windspd)-min(train_data$windspd))\n\ndataset <- data.frame(traindata, x1=Lag(traindata), x2=Lag(traindata,2),x3=Lag(traindata,3),x4=Lag(traindata,4))\nnames(dataset) <- c(\"windspd\", \"x1\", \"x2\",\"x3\",\"x4\")\ndataset=dataset[5:nrow(dataset),]\n\n#Spliting the dataset into training and testing dataset\ndt=seq(1,round(nrow(dataset)*0.8),1)\ntraindata<-dataset[dt,]\ntestdata<-dataset[-dt,]\n\n##################################################################\n#Training the NN using NSGA\nlibrary(nsga2R)\nresults <- nsga2R(fn=PICP, varNo=60, objDim=2, lowerBounds=rep(-1,60), upperBounds=rep(1,60),\n                  popSize=50, tourSize=2, generations=300, cprob=0.9, XoverDistIdx=20, mprob=0.2,MuDistIdx=3)\n\n#Paerto front\nplot(results$objectives,xlim=c(0,1),ylim=c(0,1),xlab=\"1-PICP\",ylab=\"NMPIW\",lwd=2)\n\n################################################################\n#choose the best weights\nresults$objectives\nk=results$objectives[,1]-results$objectives[,2]\nk=abs(k)\nk=cbind(results$objectives,k,seq(1,50,1))\ni=sort(k[,3],index.return=T)\ni$ix[1]\nresults$objectives[i$ix[1],]\n\n################################################################\n#Testing the NN\nweight=results$parameters[i$ix[1],]\nw1=matrix(weight[1:(4*10)],nrow = 4,ncol = 10, byrow = T )\nw2=matrix(weight[((4*10)+1):length(weight)],nrow = 10,ncol = 2, byrow = T )\n\nX.test <- testdata[,2:5]\nY.test <- testdata[,1]\n\nX.test=as.matrix(X.test)\nZ.out=X.test%*%w1\nZ.out=1/(1+exp(-Z.out))\n\noutput.t=Z.out%*%w2\n\n#plot\nplot(output.t[2:nrow(output.t),1],type=\"l\",col=\"blue\",xlim=c(0,nrow(output.t)),ylim=c(0,1),lwd=2,xlab=\"Hours\",ylab=\"Normalised Windspeed\",main=\"NN\")\npar(new=T)\nplot(output.t[2:nrow(output.t),2],type=\"l\",col=\"blue\",xlim=c(0,nrow(output.t)),ylim=c(0,1),lwd=2,xlab=\"Hours\",ylab=\"Normalised Windspeed\",main=\"NN\")\npar(new=T)\nplot(Y.test,type=\"l\",col=\"red\",xlim=c(0,nrow(testdata)),ylim=c(0,1),lwd=2,xlab=\"Hours\",ylab=\"Normalised Windspeed\",main=\"NN\")\n\n\n###############################################################\n#denormalisation\n\ndatatest1=(Y.test*((max(train_data$windspd)-min(train_data$windspd))))+min(train_data$windspd)\ndatatest.l=(output.t[,1]*((max(train_data$windspd)-min(train_data$windspd))))+min(train_data$windspd)\ndatatest.u=(output.t[,2]*((max(train_data$windspd)-min(train_data$windspd))))+min(train_data$windspd)\n\n#Plot\nplot(datatest.l[2:length(datatest.l)],type=\"l\",xlim= c(0,length(datatest1)),ylim=c(0,40),lwd=2,col=\"green\",xlab=\"Time(Hours)\",ylab=\"Windspeed(Km/h)\",main=\"MOGA-NN\")\npar(new=TRUE)\nplot(datatest.u[2:length(datatest.u)],type=\"l\",xlim= c(0,length(datatest1)),ylim=c(0,40),lwd=2,col=\"blue\",xlab=\"Time(Hours)\",ylab=\"Windspeed(Km/h)\",main=\"MOGA-NN\")\npar(new=TRUE)\nplot(datatest1,type=\"l\",xlim= c(0,length(datatest1)),ylim=c(0,40),lwd=2,col=\"red\",xlab=\"Time(Hours)\",ylab=\"Windspeed(Km/h)\",main=\"MOGA-NN\")\nv=seq(0,271,24)\nabline(v=v,lty=3)\nlegend(196,40,legend = c(\"Target\",\"Lower Bound\",\"Upper Bound\"),col=c(\"red\",\"blue\",\"green\"),lwd=2,lty=1:1,cex=0.8)\n\n################################################################\n(picp=1-results$objectives[i$ix[1],1])\n(nmpiw=results$objectives[i$ix[1],2])\n#x=as.ts(train_data,frequency(24))\n#acf(x)\n\nend=Sys.time()\nend-strt\n",
+    "created" : 1491636532436.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "298443132",
+    "id" : "DAAFEB53",
+    "lastKnownWriteTime" : 1491649820,
+    "last_content_update" : 1491649820886,
+    "path" : "/media/lonewolf/Documents/BTECHPROJECT/FINAL VERSION /NSGA-NN/Hybrid.R",
+    "project_path" : "Hybrid.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "PICP=function(y)\n{\n  #print(y)\n  w1=matrix(y[1:(4*10)],nrow = 4,ncol = 10, byrow = T )\n  w2=matrix(y[((4*10)+1):length(y)],nrow = 10,ncol = 2, byrow = T )\n  \n  X.test <- traindata[,2:5]\n  Y.test <- traindata[,1]\n  \n  X.test=as.matrix(X.test)\n  Z.out=X.test%*%w1\n  Z.out=1/(1+exp(-Z.out))\n  \n  output.t=Z.out%*%w2\n  \n  \n  #PICP\n  N=nrow(output.t)\n  a=0\n  for (i in 1:N) \n  {\n    if(Y.test[i]>=output.t[i,1] && Y.test[i]<=output.t[i,2])\n      c=1\n    else\n      c=0\n    \n    a=a+c\n  }\n  #PICP\n  picp=a/N\n  picp=1-picp\n  \n  #NMPIW\n  a=0\n  for(i in 1:N)\n  {\n    a=a+(output.t[i,2] - output.t[i,1])\n  }\n  nmpiw=a/N\n  \n  #Return fitness values\n  return(c(picp,nmpiw))\n}\n",
+    "created" : 1491636541137.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2038603245",
+    "id" : "CFE69988",
+    "lastKnownWriteTime" : 1489479706,
+    "last_content_update" : 1489479706,
+    "path" : "/media/lonewolf/Documents/BTECHPROJECT/FINAL VERSION /NSGA-NN/PICP.R",
+    "project_path" : "PICP.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#---------------------------finding the PICP for all the test data------------------\nPICP<- function(normalized_data,Ux,Lx){\n  if(normalized_data[,1]>Lx && normalized_data[,1]<Ux)\n}\n#-----------------------------------------------------------------------------------\n\n#---------------------------finding the NMPIW---------------------------------------\nNMPIW(Ux,Lx)\n\n#end",
+    "created" : 1489040081612.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4182008432",
+    "id" : "90455420",
+    "lastKnownWriteTime" : 1489062997,
+    "last_content_update" : 1489062997599,
+    "path" : "D:/BTECHPROJECT/MLPNN_NSGA2/picp_nmpiw_defined.R",
+    "project_path" : "picp_nmpiw_defined.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

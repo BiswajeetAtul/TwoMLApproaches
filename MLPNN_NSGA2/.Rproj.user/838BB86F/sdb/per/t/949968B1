@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(quantmod) #for Lag\n\ndata.1.a<- read.csv(\"D:/BTECHPROJECT/projectdataset/testing.csv\",header=T);\n#---------------normalizing the data-----------------\nmax=max(data.1.a$windspd)\nmin=min(data.1.a$windspd)\n#--------------------normalization-------------------------\ndata.2.a<-(data.1.a$windspd-min)/(max-min)\nnormalized_data<-data.frame(x1=Lag(data.2.a,1), x2=Lag(data.2.a,2), x3=Lag(data.2.a,3))\n\n#normalized_data<-normalized_data[-c(1,2,3),]\nnormalized_data<-normalized_data[4:744,]\n(tail(normalized_data))\ndata.3.a<-data.2.a[4:744]\n(data.3.a)\n",
+    "created" : 1489040895887.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3893424824",
+    "id" : "949968B1",
+    "lastKnownWriteTime" : 1489137884,
+    "last_content_update" : 1489137884025,
+    "path" : "D:/BTECHPROJECT/MLPNN_NSGA2/Data_PreProcessing.R",
+    "project_path" : "Data_PreProcessing.R",
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

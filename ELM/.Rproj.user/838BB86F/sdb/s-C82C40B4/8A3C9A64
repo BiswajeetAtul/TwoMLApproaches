@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "set.seed(100)\n#artificial dataset\n dataMatrix <- matrix(runif(10 * 200), 200, 10)\n y <- (10 * sin(pi * dataMatrix[, 1] * dataMatrix[, 2]) + 20 *(dataMatrix[, 3] - 0.5)^2 + 10 * dataMatrix[, 4] + 5 * dataMatrix[,5]) + rnorm(200, 0, 0.1)\n dataMatrix <- cbind(dataMatrix, y)\n data <- Dataset(dataMatrix)\n folds <- calculateFolds(data, 5, random = TRUE)\n datasets <- splitByFolds(data, folds, 5)\n trainingData <- normalize(datasets[[1]])\n testData <- normalizeBy(datasets[[2]], trainingData)\n #creating model\n me <- ModelEvaluation()\n rModel <- Regression(lm, predict)\n fs <- TwinScan(averageError, min)\n featureList <- selectFeatures(fs, trainingData, me, randomize = TRUE,rModel)\n featureSet(trainingData) <- featureList\n rModel <- learnFromDataset(rModel, trainingData)\n featureSet(testData) <- featureList\n predictions <- predictDataset(rModel, testData)\n averageError(getResponses(testData), predictions)\n realResponses <- unscaleVector(testData, getResponses(testData))\n realPredictions <- unscaleVector(testData, predictions)\n averageError(realResponses, realPredictions)\n evaluateInCV(me, data, rModel, 5, random = FALSE, fs)\n #confidence estimation\n ce <- ConfidenceEstimatorNNErrors(rModel, trainingData)\n predictionsTrainingData <- predictDataset(rModel, trainingData)\n ce <- create(ce, optimize = TRUE, predictionsTrainingData)\n confidences <- estimate(ce, testData, predictions)\n evaluateConfidenceEstimates(getResponses(testData), predictions,confidences)\n interval_widths <- confidences[, 3] - confidences[, 2]\n top20 <- which(interval_widths <= sort(interval_widths)[length(interval_widths) *\n                                                             + 0.2])\n top20Error <- averageError(getResponses(testData)[top20], predictions[top20])\n top20Error\n overallError <- averageError(getResponses(testData), predictions)\n overallError\n (1 - top20Error/overallError) * 100\n plotConfidenceIntervals(ce, getResponses(testData), predictions,confidences[, 1])",
+    "created" : 1486301126033.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "88902761",
+    "id" : "8A3C9A64",
+    "lastKnownWriteTime" : 32088628386725934,
+    "last_content_update" : 1486305307460,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
